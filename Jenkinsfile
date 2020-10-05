@@ -4,6 +4,7 @@ pipeline {
         stage('Build') {
             agent { docker 'openjdk:11-jdk' }
             steps {
+                sh 'chmod +x mvnw'
                 sh './mvnw clean package surefire-report:report-only'
             }
             post {
