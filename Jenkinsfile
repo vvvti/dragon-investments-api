@@ -1,7 +1,7 @@
 @Library('fintech-jsl') _
 
 backendPipeline(
-    serviceName: "dragon-investments"
+    serviceName: "investment-calculator"
 )
 
 // serviceName is used in sonar, docker and kubernetes steps
