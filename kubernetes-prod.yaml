@@ -24,7 +24,7 @@ spec:
         - name: fintech-docker-secret
       containers:
         - name: investment-calculator
-          image: ersa-team-docker-registry.fintechchallenge.pl/ersa-team/investment-calculator:latest
+          image: ersa-team-docker-registry.fintechchallenge.pl/ersa-team/investment-calculator:image_version_placeholder
           imagePullPolicy: Always
           ports:
             - name: api
