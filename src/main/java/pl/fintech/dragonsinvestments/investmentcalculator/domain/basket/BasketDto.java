@@ -9,5 +9,5 @@ import java.util.UUID;
 public class BasketDto {
   private UUID id;
   private BigDecimal value;
-  RiskType riskType;
+  private RiskType riskType;
 }

@@ -18,7 +18,7 @@ public class BasketCalculator {
     return BasketResult.builder()
         .id(basket.getId())
         .baskateValue(basket.getValue().setScale(2, RoundingMode.HALF_UP))
-        .riskType(basket.riskType)
+        .riskType(basket.getRiskType())
         .initialCashValue(basket.getValue().multiply(basket.getRiskType().cashPart()).setScale(2, RoundingMode.HALF_UP))
         .initialBondsValue(basket.getValue().multiply(basket.getRiskType().bondsPart()).setScale(2, RoundingMode.HALF_UP))
         .initialStocksValue(basket.getValue().multiply(basket.getRiskType().stocksPart()).setScale(2, RoundingMode.HALF_UP))
