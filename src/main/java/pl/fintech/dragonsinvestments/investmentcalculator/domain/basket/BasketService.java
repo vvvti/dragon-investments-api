@@ -1,32 +1,35 @@
 package pl.fintech.dragonsinvestments.investmentcalculator.domain.basket;
 
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import java.util.UUID;
 
-@Service
-@AllArgsConstructor
-public class BasketService {
-  private final BasketRepository basketRepository;
+@RequiredArgsConstructor
+class BasketService {
+    private final BasketRepository basketRepository;
+    private final BasketProfitCalculator basketProfitCalculator;
+    private final BasketResultAssembler dtoAssembler;
 
-  public BasketResult getBasket(UUID id) {
-    return BasketCalculator.calculation(basketRepository.findById(id).get());
-  }
-
-  public BasketResult save(BasketDto basketDto) {
-    Basket def = new Basket();
-    if (basketDto.getId() != null) {
-      Optional<Basket> basket = basketRepository.findById(basketDto.getId());
-      if (basket.isPresent()) {
-        def = basket.get();
-      }
+    BasketResult getBasket(UUID id) {
+        Basket basket = basketRepository.getOne(id);
+        return prepareResult(basket);
     }
 
-    def.setRiskType(basketDto.getRiskType());
-    def.setValue(basketDto.getValue());
-    basketRepository.save(def);
-    return BasketCalculator.calculation(def);
-  }
+    BasketResult update(UUID id, BasketDto basketDto) {
+        Basket basket = basketRepository.getOne(id);
+        basket.setRiskType(basketDto.getRiskType());
+        basket.setValue(basketDto.getValue());
+        basketRepository.save(basket);
+        return prepareResult(basket);
+    }
+
+    BasketResult create(BasketDto basketDto) {
+        Basket basket = new Basket(basketDto.getValue(), basketDto.getRiskType());
+        basketRepository.save(basket);
+        return prepareResult(basket);
+    }
+
+    private BasketResult prepareResult(Basket basket) {
+        BasketProfitCalculation calculation = basketProfitCalculator.calculate(basket);
+        return dtoAssembler.toResult(basket, calculation);
+    }
 }

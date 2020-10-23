@@ -1,5 +1,6 @@
 package pl.fintech.dragonsinvestments.investmentcalculator.domain.basket;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -8,15 +9,27 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class BasketResult {
-  private UUID id;
-  private RiskType riskType;
-  private BigDecimal baskateValue;
-  private BigDecimal initialCashValue;
-  private BigDecimal initialBondsValue;
-  private BigDecimal initialStocksValue;
-  private BigDecimal finalCashValue;
-  private BigDecimal finalBondsValue;
-  private BigDecimal finalStocksValue;
-  private BigDecimal profitValue;
+class BasketResult {
+    private UUID id;
+    private RiskType riskType;
+    private BigDecimal basketValue;
+    private BigDecimal totalAmount;
+    private Profit profit;
+    private PercentageTypeInwestment percentage;
+}
+
+@AllArgsConstructor
+@Getter
+class Profit {
+    private BigDecimal cash;
+    private BigDecimal bonds;
+    private BigDecimal stock;
+}
+
+@AllArgsConstructor
+@Getter
+class PercentageTypeInwestment {
+    private double cash;
+    private double bonds;
+    private double stock;
 }

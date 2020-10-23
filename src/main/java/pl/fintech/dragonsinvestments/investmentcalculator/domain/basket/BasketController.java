@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.fintech.dragonsinvestments.investmentcalculator.utils.HeaderUtil;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.UUID;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/")
 @RequiredArgsConstructor
 @Slf4j
-public class BasketController {
+class BasketController {
   private final BasketService basketService;
 
   @Value("${pl.fintech.app-name}")
@@ -23,24 +24,24 @@ public class BasketController {
   private static final String ENTITY_NAME = "basket";
 
   @GetMapping("/basket/{id}")
-  public BasketResult getBasket(@PathVariable UUID id) {
+  BasketResult getBasket(@PathVariable UUID id) {
     log.debug("REST request to get Basket : {}", id);
     return basketService.getBasket(id);
   }
 
   @PostMapping("/basket")
-  public ResponseEntity<BasketResult> createBasket(@RequestBody BasketDto basketDto) throws URISyntaxException {
-    log.debug("REST request to save Basket : {}", basketDto);
-    BasketResult result = basketService.save(basketDto);
+  ResponseEntity<BasketResult> createBasket(@RequestBody @Valid BasketDto basketDto) throws URISyntaxException {
+    log.debug("REST request to create Basket : {}", basketDto);
+    BasketResult result = basketService.create(basketDto);
     return ResponseEntity.created(new URI("/api/basket/" + result.getId()))
         .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
         .body(result);
   }
 
-  @PutMapping("/basket")
-  public ResponseEntity<BasketResult> updateBasket(@RequestBody BasketDto basketDto) {
-    log.debug("REST request to update Basket : {}", basketDto);
-    BasketResult result = basketService.save(basketDto);
+  @PutMapping("/basket/{id}")
+  ResponseEntity<BasketResult> updateBasket(@PathVariable UUID id, @RequestBody @Valid BasketDto basketDto) {
+    log.debug("REST request to update Basket with id: {} and : {}", id, basketDto);
+    BasketResult result = basketService.update(id, basketDto);
     return ResponseEntity.ok()
         .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
         .body(result);
