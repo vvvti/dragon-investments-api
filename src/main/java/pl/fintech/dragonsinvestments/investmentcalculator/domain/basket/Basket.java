@@ -14,50 +14,50 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Basket {
+class Basket {
 
-  @Id
-  private UUID id;
+    @Id
+    private UUID id;
 
-  @NotNull
-  @Column(name = "value")
-  private BigDecimal value;
+    @NotNull
+    @Column(name = "value")
+    private BigDecimal value;
 
-  @NotNull
-  @Column(name = "risk_type")
-  @Enumerated(EnumType.STRING)
-  private RiskType riskType;
+    @NotNull
+    @Column(name = "risk_type")
+    @Enumerated(EnumType.STRING)
+    private RiskType riskType;
 
-  Basket(BigDecimal value, RiskType riskType) {
-    this.id = UUID.randomUUID();
-    setValue(value);
-    setRiskType(riskType);
-  }
-
-  void setValue(BigDecimal value) {
-    if (value == null || isNegative(value)) {
-      throw new IllegalArgumentException("Basket value must be correct - value: " + value);
+    Basket(BigDecimal value, RiskType riskType) {
+        this.id = UUID.randomUUID();
+        setValue(value);
+        setRiskType(riskType);
     }
-    this.value = value;
-  }
 
-  private boolean isNegative(BigDecimal value) {
-    return value.compareTo(BigDecimal.ZERO) < 0;
-  }
+    void setValue(BigDecimal value) {
+        if (value == null || isNegative(value)) {
+            throw new IllegalArgumentException("Basket value must be correct - value: " + value);
+        }
+        this.value = value;
+    }
 
-  void setRiskType(@NonNull RiskType riskType) {
-    this.riskType = riskType;
-  }
+    private boolean isNegative(BigDecimal value) {
+        return value.compareTo(BigDecimal.ZERO) < 0;
+    }
 
-  BigDecimal cashValue() {
-    return value.multiply(riskType.cashPart());
-  }
+    void setRiskType(@NonNull RiskType riskType) {
+        this.riskType = riskType;
+    }
 
-  BigDecimal bondsValue() {
-    return value.multiply(riskType.bondsPart());
-  }
+    BigDecimal cashValue() {
+        return value.multiply(riskType.cashPart());
+    }
 
-  BigDecimal stocksValue() {
-    return value.multiply(riskType.stocksPart());
-  }
+    BigDecimal bondsValue() {
+        return value.multiply(riskType.bondsPart());
+    }
+
+    BigDecimal stocksValue() {
+        return value.multiply(riskType.stocksPart());
+    }
 }
