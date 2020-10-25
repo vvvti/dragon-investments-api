@@ -13,6 +13,7 @@ class BasketResultAssembler {
                 .id(basket.getId())
                 .basketValue(round(basket.getValue()))
                 .riskType(basket.getRiskType())
+                .currency(basket.getCurrency())
                 .totalAmount(
                         round(finalBasketValue.getFinalBasketValue()))
                 .profit(new Profit(

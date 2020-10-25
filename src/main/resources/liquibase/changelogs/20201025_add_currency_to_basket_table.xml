@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet author="krystiansoloducha" id="20201025_1_add_currency_to_basket_table">
+        <addColumn tableName="basket">
+            <column name="currency" type="VARCHAR(255)">
+                <constraints nullable="true" />
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="20201025_2_fill_currency_from_basket_with_values" author="krystiansoloducha">
+        <sql>update BASKET set CURRENCY = 'GBP'</sql>
+    </changeSet>
+
+    <changeSet id="20201025_3_add_not_null_constraint_to_currency_from_basket" author="krystiansoloducha">
+        <addNotNullConstraint tableName="basket" columnName="currency" columnDataType="VARCHAR(255)"/>
+    </changeSet>
+</databaseChangeLog>

@@ -18,12 +18,13 @@ class BasketService {
         Basket basket = basketRepository.getOne(id);
         basket.setRiskType(basketDto.getRiskType());
         basket.setValue(basketDto.getValue());
+        basket.setCurrency(basketDto.getCurrency());
         basketRepository.save(basket);
         return prepareResult(basket);
     }
 
     BasketResult create(BasketDto basketDto) {
-        Basket basket = new Basket(basketDto.getValue(), basketDto.getRiskType());
+        Basket basket = new Basket(basketDto.getValue(), basketDto.getCurrency(), basketDto.getRiskType());
         basketRepository.save(basket);
         return prepareResult(basket);
     }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -17,11 +18,11 @@ import java.math.BigDecimal;
 public class CalculatorParameters {
 
   @NotNull
-  @Min(value = 0, message = "Initial value should not be less than 0")
+  @DecimalMin(value = "0", message = "Initial value should not be less than 0")
   private BigDecimal initialValue;
 
   @NotNull
-  @Min(value = 0, message = "Monthly saving value should not be less than 0")
+  @DecimalMin(value = "0", message = "Monthly saving value should not be less than 0")
   private BigDecimal monthlySaving;
 
   @NotNull

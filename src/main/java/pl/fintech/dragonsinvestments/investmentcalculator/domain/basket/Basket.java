@@ -24,13 +24,19 @@ class Basket {
     private BigDecimal value;
 
     @NotNull
+    @Column(name = "currency")
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
+
+    @NotNull
     @Column(name = "risk_type")
     @Enumerated(EnumType.STRING)
     private RiskType riskType;
 
-    Basket(BigDecimal value, RiskType riskType) {
+    Basket(BigDecimal value, Currency currency, RiskType riskType) {
         this.id = UUID.randomUUID();
         setValue(value);
+        setCurrency(currency);
         setRiskType(riskType);
     }
 
@@ -43,6 +49,10 @@ class Basket {
 
     private boolean isNegative(BigDecimal value) {
         return value.compareTo(BigDecimal.ZERO) < 0;
+    }
+
+    void setCurrency(@NonNull Currency currency) {
+        this.currency = currency;
     }
 
     void setRiskType(@NonNull RiskType riskType) {

@@ -14,5 +14,8 @@ class BasketDto {
     BigDecimal value;
 
     @NotNull
+    Currency currency;
+
+    @NotNull
     RiskType riskType;
 }

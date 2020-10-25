@@ -12,6 +12,7 @@ import java.util.UUID;
 class BasketResult {
     private UUID id;
     private RiskType riskType;
+    private Currency currency;
     private BigDecimal basketValue;
     private BigDecimal totalAmount;
     private Profit profit;
