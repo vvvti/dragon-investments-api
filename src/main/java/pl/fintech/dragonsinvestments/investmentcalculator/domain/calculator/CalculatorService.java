@@ -1,44 +1,38 @@
 package pl.fintech.dragonsinvestments.investmentcalculator.domain.calculator;
 
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
-@Service
+@RequiredArgsConstructor
+@Slf4j
 public class CalculatorService {
-  public CalculatorResult getCalculateResult(CalculatorData calculatorData) {
-    BigDecimal futureValue = calculatorData.getAnnualProfit() == 0 ? interestRateEqualZero(calculatorData):interestRateNotEqualZero(calculatorData);
-    BigDecimal deposit = depositValue(calculatorData);
-    BigDecimal profit = futureValue.subtract(deposit);
 
-    return CalculatorResult.builder()
-        .finalValue(futureValue.setScale(2, RoundingMode.HALF_UP))
-        .estimatedProfit(profit.setScale(2, RoundingMode.HALF_UP))
-        .depositValue(deposit.setScale(2, RoundingMode.HALF_UP))
-        .build();
-  }
+    private final InvestmentCalculator investmentCalculator;
 
-  /* initialValue + monthlySaving * savingPeriod */
-  private BigDecimal  interestRateEqualZero(CalculatorData calculatorData) {
-    return calculatorData.getInitialValue()
-        .add(calculatorData.getMonthlySaving()
-            .multiply(BigDecimal.valueOf(calculatorData.getSavingPeriod())));
-  }
+    public CalculationResultDto getCalculateResult(CalculatorParameters calculatorParameters) {
+        List<PeriodCalculationDto> periodCalculations = new ArrayList<>();
+        Calculation result = null;
+        for (int period = 0; period <= calculatorParameters.getSavingPeriod(); period++) {
+            result = investmentCalculator.calculate(new CalculatorParameters(
+                    calculatorParameters.getInitialValue(),
+                    calculatorParameters.getMonthlySaving(),
+                    period,
+                    calculatorParameters.getAnnualProfit(),
+                    calculatorParameters.getPaymentFrequency()));
+            periodCalculations.add(new PeriodCalculationDto(
+                    period,
+                    result.getFinalValue(),
+                    result.getEstimatedProfit(),
+                    result.getDepositValue()));
+        }
 
-  /* (initialValue * (1 + annualProfit / 100 / paymentFrequency)^(paymentFrequency * savingPeriod)) + (monthlySaving * (1 + annualProfit / 100 / paymentFrequency)^(paymentFrequency * savingPeriod)) */
-  private BigDecimal interestRateNotEqualZero (CalculatorData calculatorData) {
-    return calculatorData.getInitialValue()
-        .multiply(BigDecimal.valueOf(Math.pow(1 + calculatorData.getAnnualProfit()/100 / calculatorData.getPaymentFrequency(), calculatorData.getPaymentFrequency() * calculatorData.getSavingPeriod())))
-        .add(calculatorData.getMonthlySaving()
-            .multiply(BigDecimal.valueOf(Math.pow(1 + calculatorData.getAnnualProfit()/100 / calculatorData.getPaymentFrequency(), calculatorData.getPaymentFrequency() * calculatorData.getSavingPeriod())-1))
-            .divide(BigDecimal.valueOf(calculatorData.getAnnualProfit()/100 / calculatorData.getPaymentFrequency()), 2,RoundingMode.HALF_UP));
-  }
-
-  /* initialValue + monthlySaving * paymentFrequency */
-  private BigDecimal depositValue (CalculatorData calculatorData) {
-    return calculatorData.getInitialValue()
-        .add(calculatorData.getMonthlySaving()
-            .multiply(BigDecimal.valueOf((calculatorData.getPaymentFrequency() * calculatorData.getSavingPeriod()))));
-  }
+        return new CalculationResultDto(
+                result.getFinalValue(),
+                result.getEstimatedProfit(),
+                result.getDepositValue(),
+                periodCalculations);
+    }
 }
