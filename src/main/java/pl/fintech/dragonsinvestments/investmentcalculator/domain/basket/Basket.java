@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.UUID;
 
 
@@ -44,7 +45,7 @@ class Basket {
         if (value == null || isNegative(value)) {
             throw new IllegalArgumentException("Basket value must be correct - value: " + value);
         }
-        this.value = value;
+        this.value = value.setScale(2, RoundingMode.HALF_UP);
     }
 
     private boolean isNegative(BigDecimal value) {

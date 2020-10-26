@@ -3,14 +3,15 @@ package pl.fintech.dragonsinvestments.investmentcalculator.domain.basket;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Slf4j
 class BasketProfitCalculator {
 
-    protected static final double CASH_RETURN_RATE = 0.02;
-    protected static final double BONDS_RETURN_RATE = 0.05;
-    protected static final double STOCKS_RETURN_RATE = 0.07;
-    protected static final int ASSUMED_INVESTMENT_PERIOD = 30;
+    static final double CASH_RETURN_RATE = 0.02;
+    static final double BONDS_RETURN_RATE = 0.05;
+    static final double STOCKS_RETURN_RATE = 0.07;
+    static final int ASSUMED_INVESTMENT_PERIOD = 30;
 
     BasketProfitCalculation calculate(Basket basket) {
         BigDecimal finalCash = finalValue(basket.cashValue(), CASH_RETURN_RATE);
@@ -19,17 +20,19 @@ class BasketProfitCalculator {
         BigDecimal finalBasketValue = finalCash.add(finalBonds).add(finalStock);
 
         return BasketProfitCalculation.builder()
-                .finalCash(finalCash)
-                .finalBonds(finalBonds)
-                .finalStock(finalStock)
-                .finalBasketValue(finalBasketValue)
+                .finalCash(round(finalCash))
+                .finalBonds(round(finalBonds))
+                .finalStock(round(finalStock))
+                .finalBasketValue(round(finalBasketValue))
                 .build();
     }
 
-    private static BigDecimal finalValue(BigDecimal initialValue, Double returnRate) {
-        for (int i = 1; i <= ASSUMED_INVESTMENT_PERIOD; i++) {
-            initialValue = initialValue.add(initialValue.multiply(BigDecimal.valueOf(returnRate)));
-        }
-        return initialValue;
+    private BigDecimal finalValue(BigDecimal initialValue, Double returnRate) {
+        return initialValue.multiply(
+                BigDecimal.valueOf(1 + returnRate).pow(ASSUMED_INVESTMENT_PERIOD));
+    }
+
+    private BigDecimal round(BigDecimal number) {
+        return number.setScale(2, RoundingMode.HALF_UP);
     }
 }
