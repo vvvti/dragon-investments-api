@@ -12,8 +12,7 @@ class BasketDto {
 
     @DecimalMin(value = "0", inclusive = false, message = "Basket value must be greater than zero")
     @NotNull
-    @JsonProperty("basketValue")
-    BigDecimal value;
+    BigDecimal basketValue;
 
     @NotNull
     Currency currency;
