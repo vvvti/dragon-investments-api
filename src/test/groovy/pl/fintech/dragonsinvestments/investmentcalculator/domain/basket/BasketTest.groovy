@@ -5,7 +5,7 @@ import spock.lang.Specification
 class BasketTest extends Specification {
     def "should basket value not be negative number"() {
         given:
-        def basket = new Basket(BigDecimal.TEN, Currency.EUR, RiskType.Aggressive)
+        def basket = new Basket(BigDecimal.TEN, Currency.EUR, RiskType.AGGRESSIVE)
 
         when:
         basket.setValue(-1 as BigDecimal)
@@ -14,9 +14,20 @@ class BasketTest extends Specification {
         thrown(IllegalArgumentException)
     }
 
+    def "should change basket value"() {
+        given:
+        def basket = new Basket(BigDecimal.TEN, Currency.EUR, RiskType.AGGRESSIVE)
+
+        when:
+        basket.setValue(BigDecimal.ONE as BigDecimal)
+
+        then:
+        basket.value == BigDecimal.ONE
+    }
+
     def "should return proper cash value of basket"() {
         given:
-        def basket = new Basket(BigDecimal.TEN, Currency.EUR, RiskType.Aggressive)
+        def basket = new Basket(BigDecimal.TEN, Currency.EUR, RiskType.AGGRESSIVE)
 
         when:
         def cash = basket.cashValue()
@@ -27,7 +38,7 @@ class BasketTest extends Specification {
 
     def "should return proper bonds value of basket"() {
         given:
-        def basket = new Basket(BigDecimal.TEN, Currency.EUR, RiskType.Aggressive)
+        def basket = new Basket(BigDecimal.TEN, Currency.EUR, RiskType.AGGRESSIVE)
 
         when:
         def bonds = basket.bondsValue()
@@ -38,7 +49,7 @@ class BasketTest extends Specification {
 
     def "should return proper stock value of basket"() {
         given:
-        def basket = new Basket(BigDecimal.TEN, Currency.EUR, RiskType.Aggressive)
+        def basket = new Basket(BigDecimal.TEN, Currency.EUR, RiskType.AGGRESSIVE)
 
         when:
         def stock = basket.stocksValue()

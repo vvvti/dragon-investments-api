@@ -1,15 +1,13 @@
 package pl.fintech.dragonsinvestments.investmentcalculator.domain.basket;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 import java.math.BigDecimal;
 
 enum RiskType {
-    VeryConservative(0.2, 0.5, 0.3),
-    Conservative(0.45, 0.4, 0.15),
-    Moderate(0.65, 0.30, 0.05),
-    Aggressive(0.80, 0.15, 0.05),
-    VeryAggressive(0.9, 0.05, 0.05);
+    VERY_CONSERVATIVE(0.2, 0.5, 0.3),
+    CONSERVATIVE(0.45, 0.4, 0.15),
+    MODERATE(0.65, 0.30, 0.05),
+    AGGRESSIVE(0.80, 0.15, 0.05),
+    VERY_AGGRESSIVE(0.9, 0.05, 0.05);
 
     private final BigDecimal cashPart;
     private final BigDecimal bondsPart;
@@ -31,10 +29,5 @@ enum RiskType {
 
     BigDecimal stocksPart() {
         return this.stocksPart;
-    }
-
-    @JsonValue
-    public String getType(){
-        return this.name().toUpperCase();
     }
 }

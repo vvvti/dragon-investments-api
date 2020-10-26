@@ -8,7 +8,7 @@ class BasketResultAssemblerTest extends Specification {
 
     def "Should create proper basket dto result"() {
         given:
-        def basket = new Basket(BigDecimal.valueOf(1), Currency.EUR, RiskType.Aggressive)
+        def basket = new Basket(BigDecimal.valueOf(1), Currency.EUR, RiskType.AGGRESSIVE)
         def calculation = BasketProfitCalculation.builder()
                 .finalStock(BigDecimal.valueOf(2))
                 .finalBonds(BigDecimal.valueOf(3))
