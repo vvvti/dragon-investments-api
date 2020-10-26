@@ -13,7 +13,7 @@ enum RiskType {
     private final BigDecimal bondsPart;
     private final BigDecimal stocksPart;
 
-    RiskType(Double cashPart, Double bondsPart, Double stocksPart) {
+    RiskType(Double stocksPart, Double bondsPart, Double cashPart) {
         this.cashPart = BigDecimal.valueOf(cashPart);
         this.bondsPart = BigDecimal.valueOf(bondsPart);
         this.stocksPart = BigDecimal.valueOf(stocksPart);

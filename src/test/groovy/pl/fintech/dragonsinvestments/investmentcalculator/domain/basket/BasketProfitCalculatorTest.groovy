@@ -8,24 +8,24 @@ class BasketProfitCalculatorTest extends Specification {
 
     def "should return proper final cash profit value in calculation"() {
         given:
-        def basket = new Basket(5000 as BigDecimal, Currency.EUR, RiskType.VERY_CONSERVATIVE)
+        def basket = new Basket(1000 as BigDecimal, Currency.EUR, RiskType.VERY_CONSERVATIVE)
 
         when:
         def result = basketProfitCalculator.calculate(basket)
 
         then:
-        result.finalCash == 1811.36
+        result.finalCash == 543.41
     }
 
     def "should return proper final bonds profit value in calculation"() {
         given:
-        def basket = new Basket(2000 as BigDecimal, Currency.EUR, RiskType.VERY_CONSERVATIVE)
+        def basket = new Basket(1000 as BigDecimal, Currency.EUR, RiskType.VERY_CONSERVATIVE)
 
         when:
         def result = basketProfitCalculator.calculate(basket)
 
         then:
-        result.finalBonds == 4321.94
+        result.finalBonds == 2160.97
     }
 
     def "should return proper final stock profit value in calculation"() {
@@ -36,7 +36,7 @@ class BasketProfitCalculatorTest extends Specification {
         def result = basketProfitCalculator.calculate(basket)
 
         then:
-        result.finalStock == 2283.68
+        result.finalStock == 1522.45
     }
 
     def "should return proper final basket value in calculation"() {
@@ -47,6 +47,6 @@ class BasketProfitCalculatorTest extends Specification {
         def result = basketProfitCalculator.calculate(basket)
 
         then:
-        result.finalBasketValue == 362.27 + 2160.97 + 2283.68
+        result.finalBasketValue == 543.41 + 2160.97 + 1522.45
     }
 }
