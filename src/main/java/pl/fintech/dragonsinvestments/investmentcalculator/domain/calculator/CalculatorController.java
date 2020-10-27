@@ -1,5 +1,6 @@
 package pl.fintech.dragonsinvestments.investmentcalculator.domain.calculator;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ public class CalculatorController {
   private String applicationName;
   private static final String ENTITY_NAME = "calculator";
 
+  @Operation(summary = "Get result of calculation")
   @GetMapping("/calculator")
   public CalculationResultDto getCalculation(@Valid CalculatorParameters calculatorParameters) {
     log.debug("REST request to get result of investment calculation");

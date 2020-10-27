@@ -1,5 +1,7 @@
 package pl.fintech.dragonsinvestments.investmentcalculator.domain.basket;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,12 +25,14 @@ class BasketController {
   private String applicationName;
   private static final String ENTITY_NAME = "basket";
 
+  @Operation(summary = "Get result of basket calculation by id")
   @GetMapping("/basket/{id}")
   BasketResult getBasket(@PathVariable UUID id) {
     log.debug("REST request to get Basket : {}", id);
     return basketService.getBasket(id);
   }
 
+  @Operation(summary = "Save result of basket calculation")
   @PostMapping("/basket")
   ResponseEntity<BasketResult> createBasket(@RequestBody @Valid BasketDto basketDto) throws URISyntaxException {
     log.debug("REST request to create Basket : {}", basketDto);
@@ -38,6 +42,7 @@ class BasketController {
         .body(result);
   }
 
+  @Operation(summary = "Update result of basket calculation")
   @PutMapping("/basket/{id}")
   ResponseEntity<BasketResult> updateBasket(@PathVariable UUID id, @RequestBody @Valid BasketDto basketDto) {
     log.debug("REST request to update Basket with id: {} and : {}", id, basketDto);
