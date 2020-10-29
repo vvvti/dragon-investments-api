@@ -6,7 +6,7 @@
 
 ## DESCRIPTION
 
-# The backend application for an investment calculator
+The backend application for an investment calculator
 Dragon investments is a finance calculator that helps users to make decision regarding their saving and investment .
 On Dragon investment we prepared a wide range of investment calculation for everyone who is wonder to know that which solution will be the best for them.
 Thanks to it, choosing the right path to multiply money will not be so difficult.
@@ -27,25 +27,27 @@ also on this way you’ll get reliable results,and enabling you to choose the op
 
 ### How to run application locally
 
-1
+First method: 
 -	Run postgres database on port 5432
-*	docker command : 'docker run -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres'
+-	docker command : 'docker run -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres'
 -	Run the application, application by default will be available on port 8080
-2
+
+
+Second method:
 -	In terminal run command : docker-compose up
 -	Run the application, application by default will be available on port 8080
 
 
-## TESTS
+### TESTS
 If you want to start integration tests you need to have run postgres database on docker.
 Instruction how to start docker database is in section above.
 
 
-## API DOCUMENTATION
+### API DOCUMENTATION
 API documentation has been created by a swagger tool and available here:
-https://investment-calculator.ersa-team.sit.fintechchallenge.pl/api/swagger-ui.html
-https://investment-calculator.ersa-team.uat.fintechchallenge.pl/api/swagger-ui.html
-https://investment-calculator.ersa-team.fintechchallenge.pl/api/swagger-ui.html
+* SIT - https://investment-calculator.ersa-team.sit.fintechchallenge.pl/api/swagger-ui.html
+* UAT - https://investment-calculator.ersa-team.uat.fintechchallenge.pl/api/swagger-ui.html
+* PROD - https://investment-calculator.ersa-team.fintechchallenge.pl/api/swagger-ui.html
 
 
 ## This is regular application created via spring.io. Have a look at:
