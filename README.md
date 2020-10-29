@@ -23,6 +23,8 @@ also on this way you’ll get reliable results,and enabling you to choose the op
 -   Liquibase
 -   Swagger
 -   PostgreSQL
+-	Sonar
+-	Atlassian stack
 
 
 ### How to run application locally
