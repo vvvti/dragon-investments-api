@@ -1,14 +1,18 @@
 package pl.fintech.dragonsinvestments.investmentcalculator.domain.basket;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@Transactional
 class BasketService {
     private final BasketRepository basketRepository;
     private final BasketProfitCalculator basketProfitCalculator;
     private final BasketResultAssembler dtoAssembler;
 
+    @Transactional(readOnly = true)
     BasketResult getBasket(UUID id) {
         Basket basket = basketRepository.getOne(id);
         return prepareResult(basket);
@@ -19,7 +23,6 @@ class BasketService {
         basket.setRiskType(basketDto.getRiskType());
         basket.setValue(basketDto.getBasketValue());
         basket.setCurrency(basketDto.getCurrency());
-        basketRepository.save(basket);
         return prepareResult(basket);
     }
 
