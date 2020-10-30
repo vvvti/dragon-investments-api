@@ -8,36 +8,34 @@ import java.math.RoundingMode;
 
 @Slf4j
 @RequiredArgsConstructor
-public class InvestmentCalculator {
+class InvestmentCalculator {
 
-    public Calculation calculate(CalculatorParameters calculatorParameters) {
-        BigDecimal futureValue = calculatorParameters.getAnnualProfit() == 0 ? interestRateEqualZero(calculatorParameters) : interestRateNotEqualZero(calculatorParameters);
-        BigDecimal deposit = depositValue(calculatorParameters);
-        BigDecimal profit = futureValue.subtract(deposit);
+  Calculation calculate(CalculatorParameters calculatorParameters) {
+    BigDecimal futureValue = calculatorParameters.getAnnualProfit() == 0 ? interestRateEqualZero(calculatorParameters) : interestRateNotEqualZero(calculatorParameters);
+    BigDecimal deposit = depositValue(calculatorParameters);
+    BigDecimal profit = futureValue.subtract(deposit);
 
-        return Calculation.of(futureValue, profit, deposit);
-    }
+    return Calculation.of(futureValue, profit, deposit);
+  }
 
-    /* initialValue + monthlySaving * savingPeriod */
-    private BigDecimal interestRateEqualZero(CalculatorParameters calculatorParameters) {
-        return calculatorParameters.getInitialValue()
-                .add(calculatorParameters.getMonthlySaving()
-                        .multiply(BigDecimal.valueOf(calculatorParameters.getSavingPeriod())));
-    }
+  private BigDecimal interestRateEqualZero(CalculatorParameters calculatorParameters) {
+    return calculatorParameters.getInitialValue()
+        .add(calculatorParameters.getMonthlySaving()
+            .multiply(BigDecimal.valueOf(calculatorParameters.getSavingPeriod()))
+            .multiply(BigDecimal.valueOf(calculatorParameters.getPaymentFrequency())));
+  }
 
-    /* (initialValue * (1 + annualProfit / 100 / paymentFrequency)^(paymentFrequency * savingPeriod)) + (monthlySaving * (1 + annualProfit / 100 / paymentFrequency)^(paymentFrequency * savingPeriod)) */
-    private BigDecimal interestRateNotEqualZero(CalculatorParameters calculatorParameters) {
-        return calculatorParameters.getInitialValue()
-                .multiply(BigDecimal.valueOf(Math.pow(1 + calculatorParameters.getAnnualProfit() / 100 / calculatorParameters.getPaymentFrequency(), calculatorParameters.getPaymentFrequency() * calculatorParameters.getSavingPeriod())))
-                .add(calculatorParameters.getMonthlySaving()
-                        .multiply(BigDecimal.valueOf(Math.pow(1 + calculatorParameters.getAnnualProfit() / 100 / calculatorParameters.getPaymentFrequency(), calculatorParameters.getPaymentFrequency() * calculatorParameters.getSavingPeriod()) - 1))
-                        .divide(BigDecimal.valueOf(calculatorParameters.getAnnualProfit() / 100 / calculatorParameters.getPaymentFrequency()), 2, RoundingMode.HALF_UP));
-    }
+  private BigDecimal interestRateNotEqualZero(CalculatorParameters calculatorParameters) {
+    return calculatorParameters.getInitialValue()
+        .multiply(BigDecimal.valueOf(Math.pow(1 + calculatorParameters.getAnnualProfit() / 100 / calculatorParameters.getPaymentFrequency(), calculatorParameters.getPaymentFrequency() * calculatorParameters.getSavingPeriod())))
+        .add(calculatorParameters.getMonthlySaving()
+            .multiply(BigDecimal.valueOf(Math.pow(1 + calculatorParameters.getAnnualProfit() / 100 / calculatorParameters.getPaymentFrequency(), calculatorParameters.getPaymentFrequency() * calculatorParameters.getSavingPeriod()) - 1))
+            .divide(BigDecimal.valueOf(calculatorParameters.getAnnualProfit() / 100 / calculatorParameters.getPaymentFrequency()), 2, RoundingMode.HALF_UP));
+  }
 
-    /* initialValue + monthlySaving * paymentFrequency */
-    private BigDecimal depositValue(CalculatorParameters calculatorParameters) {
-        return calculatorParameters.getInitialValue()
-                .add(calculatorParameters.getMonthlySaving()
-                        .multiply(BigDecimal.valueOf((calculatorParameters.getPaymentFrequency() * calculatorParameters.getSavingPeriod()))));
-    }
+  private BigDecimal depositValue(CalculatorParameters calculatorParameters) {
+    return calculatorParameters.getInitialValue()
+        .add(calculatorParameters.getMonthlySaving()
+            .multiply(BigDecimal.valueOf((calculatorParameters.getPaymentFrequency() * calculatorParameters.getSavingPeriod()))));
+  }
 }

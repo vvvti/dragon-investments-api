@@ -14,7 +14,7 @@ import javax.validation.Valid;
 @RequestMapping("/")
 @RequiredArgsConstructor
 @Slf4j
-public class CalculatorController {
+class CalculatorController {
   private final CalculatorService calculatorService;
 
   @Value("${pl.fintech.app-name}")
@@ -23,7 +23,7 @@ public class CalculatorController {
 
   @Operation(summary = "Get result of calculation")
   @GetMapping("/calculator")
-  public CalculationResultDto getCalculation(@Valid CalculatorParameters calculatorParameters) {
+  CalculationResultDto getCalculation(@Valid CalculatorParameters calculatorParameters) {
     log.debug("REST request to get result of investment calculation");
     return calculatorService.getCalculateResult(calculatorParameters);
   }

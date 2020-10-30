@@ -8,25 +8,25 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
-public class CalculatorService {
+class CalculatorService {
 
     private final InvestmentCalculator investmentCalculator;
 
-    public CalculationResultDto getCalculateResult(CalculatorParameters calculatorParameters) {
+    CalculationResultDto getCalculateResult(CalculatorParameters calculatorParameters) {
         List<PeriodCalculationDto> periodCalculations = new ArrayList<>();
         Calculation result = null;
         for (int period = 0; period <= calculatorParameters.getSavingPeriod(); period++) {
             result = investmentCalculator.calculate(new CalculatorParameters(
-                    calculatorParameters.getInitialValue(),
-                    calculatorParameters.getMonthlySaving(),
-                    period,
-                    calculatorParameters.getAnnualProfit(),
-                    calculatorParameters.getPaymentFrequency()));
+                calculatorParameters.getInitialValue(),
+                calculatorParameters.getMonthlySaving(),
+                period,
+                calculatorParameters.getAnnualProfit(),
+                calculatorParameters.getPaymentFrequency()));
             periodCalculations.add(new PeriodCalculationDto(
-                    period,
-                    result.getFinalValue(),
-                    result.getEstimatedProfit(),
-                    result.getDepositValue()));
+                period,
+                result.getFinalValue(),
+                result.getEstimatedProfit(),
+                result.getDepositValue()));
         }
 
         return new CalculationResultDto(

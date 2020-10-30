@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CalculatorParameters {
+class CalculatorParameters {
 
   @NotNull
   @DecimalMin(value = "0", message = "Initial value should not be less than 0")
@@ -26,7 +26,7 @@ public class CalculatorParameters {
   private BigDecimal monthlySaving;
 
   @NotNull
-  @Min(value = 1, message = "Saving period value should not be less than 0")
+  @Min(value = 1, message = "Saving period value should not be less than 1")
   @Max(value = 50, message = "Saving period value should not be greater than 50")
   private Integer savingPeriod;
 

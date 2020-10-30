@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 
 @Value
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Calculation {
+class Calculation {
   BigDecimal finalValue;
   BigDecimal estimatedProfit;
   BigDecimal depositValue;

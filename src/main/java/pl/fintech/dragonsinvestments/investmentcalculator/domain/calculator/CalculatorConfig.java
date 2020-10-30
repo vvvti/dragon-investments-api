@@ -4,10 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class CalculatorConfig {
+class CalculatorConfig {
 
     @Bean
-    public CalculatorService calculatorService() {
+    CalculatorService calculatorService() {
         return new CalculatorService(new InvestmentCalculator());
     }
 }
