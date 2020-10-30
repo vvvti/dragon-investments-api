@@ -27,7 +27,10 @@ class BasketFT extends PostgreSQLContainerSpecification {
     @Autowired
     ObjectMapper objectMapper
 
-        def 'should create new basket \
+    @Autowired
+    BasketRepository repository
+
+    def 'should create new basket \
         and then have possibility to retrieve it'() {
         given:
         def basketDto = new BasketDto(1000 as BigDecimal, Currency.EUR, RiskType.VERY_CONSERVATIVE)
@@ -81,5 +84,9 @@ class BasketFT extends PostgreSQLContainerSpecification {
                 post('/basket').contentType(APPLICATION_JSON).content(toJson(basketDto))
         ).andReturn().response.contentAsString
         return objectMapper.readValue(basketResultFromCreation, BasketResult).id
+    }
+
+    def cleanup() {
+        repository.deleteAll()
     }
 }
